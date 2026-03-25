@@ -107,11 +107,9 @@ def _analyze_braces(tokens: list[Token], first_brace: int) -> _Fix | None:
     if walk >= 0 and tokens[walk + 1].name in INDENT_TOKENS:
         initial_indent = len(tokens[walk + 1].src)
     elif walk < 0:
-        # first line of source — find leading indent before the brace
-        for token in tokens[:first_brace]:
-            if token.name in INDENT_TOKENS:
-                initial_indent = len(token.src)
-                break
+        # first line of source — only tokens[0] can be line indentation
+        if tokens[0].name in INDENT_TOKENS:
+            initial_indent = len(tokens[0].src)
         else:
             initial_indent = 0
     else:

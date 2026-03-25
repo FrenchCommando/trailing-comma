@@ -74,6 +74,23 @@ class TestFirstLineIndent(unittest.TestCase):
         """
         self.assertEqual(fix_trailing_commas(source), expected)
 
+    def test_mid_line_whitespace_not_mistaken_for_indent(self):
+        # The space between 'def' and 'name' is UNIMPORTANT_WS, not line indent.
+        # Without the fix, initial_indent = 1 (length of that space),
+        # producing 5-space indent instead of 4.
+        source = (
+            "def load_daily_sigma(root: str, date_from: dt.date,\n"
+            "                     ) -> dict[dt.date, float]:\n"
+            "    pass\n"
+        )
+        expected = (
+            "def load_daily_sigma(\n"
+            "    root: str, date_from: dt.date,\n"
+            ") -> dict[dt.date, float]:\n"
+            "    pass\n"
+        )
+        self.assertEqual(fix_trailing_commas(source), expected)
+
     def test_no_change_construct_keeps_indent(self):
         # Even constructs we don't add commas to (generators) must not
         # have their closing brace moved.
