@@ -106,6 +106,14 @@ def _analyze_braces(tokens: list[Token], first_brace: int) -> _Fix | None:
 
     if walk >= 0 and tokens[walk + 1].name in INDENT_TOKENS:
         initial_indent = len(tokens[walk + 1].src)
+    elif walk < 0:
+        # first line of source — find leading indent before the brace
+        for token in tokens[:first_brace]:
+            if token.name in INDENT_TOKENS:
+                initial_indent = len(token.src)
+                break
+        else:
+            initial_indent = 0
     else:
         initial_indent = 0
 
@@ -261,11 +269,20 @@ def _apply_fix(
         ]
         last_brace += 2
 
-        # re-indent contents to match
+        # re-indent contents (exclude closing brace indent — handled separately)
+        closing_brace_indent = None
+        if (
+                tokens[last_brace - 1].name in INDENT_TOKENS
+                and tokens[last_brace - 2].name == 'NL'
+        ):
+            closing_brace_indent = last_brace - 1
+
         min_indent = None
         indents = []
         insert_indents = []
         for scan in range(first_brace + 3, last_brace):
+            if scan == closing_brace_indent:
+                continue
             if (
                     tokens[scan - 1].name == 'NL'
                     and tokens[scan].name != 'NL'

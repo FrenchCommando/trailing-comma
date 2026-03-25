@@ -11,6 +11,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('filenames', nargs='*')
     args = parser.parse_args(argv)
 
+    if not args.filenames:
+        contents = sys.stdin.buffer.read().decode()
+        sys.stdout.buffer.write(fix_trailing_commas(contents).encode())
+        return 0
+
     ret = 0
     for filename in args.filenames:
         ret |= _fix_file(filename)
@@ -18,12 +23,6 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def _fix_file(filename: str) -> int:
-    if filename == '-':
-        contents = sys.stdin.buffer.read().decode()
-        result = fix_trailing_commas(contents)
-        sys.stdout.buffer.write(result.encode())
-        return 0
-
     with open(filename, 'rb') as handle:
         original = handle.read()
 
