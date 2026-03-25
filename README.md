@@ -1,5 +1,7 @@
 # trailing-comma
 
+[![PyPI](https://img.shields.io/pypi/v/trailing-comma)](https://pypi.org/project/trailing-comma/)
+
 Add and remove trailing commas in Python source files.
 
 A minimal replacement for [add-trailing-comma](https://github.com/asottile/add-trailing-comma),
