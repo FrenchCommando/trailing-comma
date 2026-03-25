@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trailing-comma"
+version = "0.1.0"
+description = "Add and remove trailing commas in Python source"
+requires-python = ">=3.14"
+license = "MIT"
+dependencies = ["tokenize-rt"]
+
+[project.scripts]
+trailing-comma = "trailing_comma.__main__:main"
