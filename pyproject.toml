@@ -18,6 +18,9 @@ classifiers = [
 ]
 dependencies = ["tokenize-rt"]
 
+[project.optional-dependencies]
+dev = ["build", "twine"]
+
 [project.urls]
 Homepage = "https://github.com/FrenchCommando/trailing-comma"
 

@@ -15,6 +15,12 @@ directly testable, which revealed a latent bug in the original's unhug re-indent
 pip install trailing-comma
 ```
 
+For development (includes build and twine for publishing):
+
+```
+pip install -e ".[dev]"
+```
+
 ## Usage
 
 Rewrite files in place:
